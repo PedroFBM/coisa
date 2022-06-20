@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Conversor de Moedas</title>
+    </head>
+    <body>
+        <input type="number" name="moeda" id="moeda">
+        <input type="number" name="quant" id="quant">
+        <button type="button" id="pesquisar">Enviar</button>
+        <br/>MOEDA: <strong><span id="moeda"></span></strong><br>
+        QUANTIDADE: <strong><span id="quant"></span></strong><br>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script>
+            $("#pesquisar").on("click", function(){
+
+                        var loading = $("#loading");
+                        var moeda = $("#moeda").val().replace(/[^0-9]/g,'');
+                        var quant = $("#quant").val().replace(/[^0-9]/g,'');
+
+                        loading.show();
+                        if(moeda !== "" && moeda.length == 14){
+
+                            $.ajax({
+                                url: "https://economia.awesomeapi.com.br/" + moeda +"/" + quant,
+                                type: "GET",
+                                crossDomain: true,
+                                dataType: "jsonp",
+                                success: function (data) {
+
+                                    if(data.erro !== undefined){
+                                        alert("CEP inválido ou não encontrado");
+                                    }else{
+                                        $("#moeda").text(data.bid);
+                                        $("#telefone").text(data.telefone);
+                                        $("#logradouro").text(data.logradouro);
+                                    }
+                                        
+                            }
+        </script>
+
+    </body>
+</html>
