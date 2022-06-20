@@ -2,24 +2,25 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Conversor de Moedas</title>
+        <title>Conversor de Moedas</title> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     </head>
     <body>
-        <input type="number" name="moeda" id="moeda">
+
+        <input type="text" name="moeda" id="moeda">
         <input type="number" name="quant" id="quant">
         <button type="button" id="pesquisar">Enviar</button>
         <br/>MOEDA: <strong><span id="moeda"></span></strong><br>
         QUANTIDADE: <strong><span id="quant"></span></strong><br>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+       
         <script>
             $("#pesquisar").on("click", function(){
 
-                        var loading = $("#loading");
-                        var moeda = $("#moeda").val().replace(/[^0-9]/g,'');
-                        var quant = $("#quant").val().replace(/[^0-9]/g,'');
+                var loading = $("#loading");
+                console.log(moeda)
 
                         loading.show();
-                        if(moeda !== "" && moeda.length == 14){
+                        if(moeda !== ""){
 
                             $.ajax({
                                 url: "https://economia.awesomeapi.com.br/" + moeda +"/" + quant,
@@ -31,13 +32,18 @@
                                     if(data.erro !== undefined){
                                         alert("CEP inválido ou não encontrado");
                                     }else{
-                                        $("#moeda").text(data.bid);
+                                        $("#moeda").text(data.high);
                                         $("#telefone").text(data.telefone);
-                                        $("#logradouro").text(data.logradouro);
                                     }
-                                        
-                            }
+                                },
+                                complete: function(){
+                                    loading.hide();
+                            }       
+                        });
+                    }else{
+                    alert("CAMPO NÃO PODE ESTAR VAZIO!!!");
+                }
+            });
         </script>
-
     </body>
 </html>
