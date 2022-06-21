@@ -7,36 +7,35 @@
     </head>
     <body>
 
-        <input type="text" name="moeda" id="moeda">
-        <input type="number" name="quant" id="quant">
+        <input type="text" name="cep" id="cep">
         <button type="button" id="pesquisar">Enviar</button>
-        <br/>MOEDA: <strong><span id="moeda"></span></strong><br>
-        QUANTIDADE: <strong><span id="quant"></span></strong><br>
-       
+        <br/>Cep: <strong><span id="cep"></span></strong>
+    
         <script>
             $("#pesquisar").on("click", function(){
 
                 var loading = $("#loading");
-                console.log(moeda)
+                var cep = $("#cep").val().replace(/[^0-8]/g,''); 
+                console.log(cep)
 
                         loading.show();
-                        if(moeda !== ""){
+                        if(cep !== ""){
+                            alert("aviso= não sei o que está acontecendo com o codigo, mas ele não funciona! dá um tal de err file not found")
 
                             $.ajax({
-                                url: "https://economia.awesomeapi.com.br/" + moeda +"/" + quant,
+                                url: "viacep.com.br/ws/" + cep + "/json/?callback=data",
                                 type: "GET",
                                 crossDomain: true,
                                 dataType: "jsonp",
-                                success: function (data) {
+                                success: function (data) { 
 
                                     if(data.erro !== undefined){
-                                        alert("CEP inválido ou não encontrado");
+                                        alert("CEP inválido");
                                     }else{
-                                        $("#moeda").text(data.high);
-                                        $("#telefone").text(data.telefone);
+                                        $("#cep").text(data.cep);
                                     }
                                 },
-                                complete: function(){
+                                complete: function(){ 
                                     loading.hide();
                             }       
                         });
